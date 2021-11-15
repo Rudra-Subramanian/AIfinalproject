@@ -10,21 +10,21 @@ This module represents the game of Connect 4.
 import numpy as np
 
 
-HEIGHT = 6 # Height of the connect 4 board
-WIDTH = 5 # Width of the connect 4 board
-CONNECT = 4  # Number of items in a sequence necessary to win 
+HEIGHT = 9 # Height of the connect 4 board
+WIDTH = 8 # Width of the connect 4 board
+CONNECT = 4  # Number of items in a sequence necessary to win
 
 class State(object):
     """
     Represents a Connect 4 board.
     """
-    
+
     def __init__(self, state=None, move=None):
         """
-        Constructor. Makes a copy of state if a 
+        Constructor. Makes a copy of state if a
         state is passed in (i.e., non-destructive).
         """
-        
+
         if state == None:
             self._board = np.zeros([HEIGHT, WIDTH], int)
             self._heights = np.zeros(WIDTH, int)
@@ -59,21 +59,21 @@ class State(object):
         """
         if len(self.getMoves()) == 0:
             return True
-        return self._wins(-1) or self._wins(1) 
-    
+        return self._wins(-1) or self._wins(1)
+
     def getTurn(self):
         """
         Returns +1 for the first player or -1 for the second player.
         This is the player whose turn it is to move in this state.
         """
         return self.turn
-    
+
     def getKey(self):
         """
-        Returns a string representing this state. 
+        Returns a string representing this state.
         """
         return self.key
-    
+
 
     def value(self):
         """
@@ -190,6 +190,9 @@ def debug():
         print(print_board(state))
         print("is win player 1:", state._wins(1))
         print("is win player 2:", state._wins(-1))
+
+def runGame():
+
 
 if __name__ == "__main__":
     debug()
