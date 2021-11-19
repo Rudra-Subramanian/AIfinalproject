@@ -6,13 +6,15 @@ This module represents the game of Connect 4.
 @author Anna Rafferty (adapted from original)
 @author Dave Musicant (further adapted for Python 3)
 """
-
+import sys
 import numpy as np
+import minimax
 
 
-HEIGHT = 9 # Height of the connect 4 board
-WIDTH = 8 # Width of the connect 4 board
+HEIGHT = 6 # Height of the connect 4 board
+WIDTH = 7 # Width of the connect 4 board
 CONNECT = 4  # Number of items in a sequence necessary to win
+
 
 class State(object):
     """
@@ -191,8 +193,72 @@ def debug():
         print("is win player 1:", state._wins(1))
         print("is win player 2:", state._wins(-1))
 
-def runGame():
+def runGame(heuristic, depth):
+    if sys.argv[1] == "human":
+        PLAYER1 = 'human'
+    else:
+        PLAYER1 = 'computer'
+    if sys.argv[2] == 'human':
+        PLAYER2 = 'human'
+    else:
+        PLAYER2 = 'computer'
+    gameover = False
+    maxMoves = WIDTH * HEIGHT
+    state = new_game()
+    while ((not gameover) and maxMoves > 0):
+        print("current board \n")
+        print(print_board(state))
+        print("\n")
+        if PLAYER1 == 'human':
+            check = False
+            while(check == False):
+                print("where do you want to move. enter a number between 0 and " , WIDTH-1)
+                print("\n")
+                move = input()
+                if (int(move) >= 0 and int(move) < WIDTH):
+                    check = True
+                else:
+                    print("Invalid input")
+        elif PLAYER1 == 'computer':
+            move = minimax.doMinimax(state, heuristic, 1, depth)
+        state = state.nextState(int(move))
+        maxMoves = maxMoves - 1
+        if(state.isTerminal()):
+            gameover = True
+            break
+        print("current board \n")
+        print(print_board(state))
+        print("\n")
+        if PLAYER2 == 'human':
+            check = False
+            while(check == False):
+                print("where do you want to move. enter a number between 0 and " , WIDTH-1)
+                print("\n")
+                move = input()
+                if (int(move) >= 0 and int(move) < WIDTH):
+                    check = True
+                else:
+                    print("Invalid input")
+        elif PLAYER2 == 'computer':
+            move = minimax.doMinimax(state, heuristic, -1, depth)
+        state = state.nextState(int(move))
+        maxMoves = maxMoves - 1
+        if(state.isTerminal()):
+            gameover = True
+            break
+    print("\n the game has ended \n")
+    print(state.value(), " has won\n")
+    print(print_board(state))
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
-    debug()
+    heuristic = [["*",0.015, "x"], ["+",0, "y"], ["-",0, "z"], ["+",00, "v"]]
+    depth = sys.argv[3]
+    runGame(heuristic, int(depth))
