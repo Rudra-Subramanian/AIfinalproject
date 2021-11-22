@@ -249,6 +249,7 @@ def runGame(heuristic, depth):
     print("\n the game has ended \n")
     print(state.value(), " has won\n")
     print(print_board(state))
+    return([maxMoves, state.value()])
 
 
 
@@ -261,4 +262,5 @@ def runGame(heuristic, depth):
 if __name__ == "__main__":
     heuristic = [["*",0.015, "x"], ["+",0, "y"], ["-",0, "z"], ["+",00, "v"]]
     depth = sys.argv[3]
-    runGame(heuristic, int(depth))
+    winner = runGame(heuristic, int(depth))
+    print(winner)
