@@ -193,15 +193,7 @@ def debug():
         print("is win player 1:", state._wins(1))
         print("is win player 2:", state._wins(-1))
 
-def runGame(heuristic, depth):
-    if sys.argv[1] == "human":
-        PLAYER1 = 'human'
-    else:
-        PLAYER1 = 'computer'
-    if sys.argv[2] == 'human':
-        PLAYER2 = 'human'
-    else:
-        PLAYER2 = 'computer'
+def runGame(heuristic, depth, PLAYER1, PLAYER2):
     gameover = False
     maxMoves = WIDTH * HEIGHT
     state = new_game()
@@ -249,7 +241,28 @@ def runGame(heuristic, depth):
     print("\n the game has ended \n")
     print(state.value(), " has won\n")
     print(print_board(state))
-    return([maxMoves, state.value()])
+    return([maxMoves, state.value(), state])
+
+#runs the game with two computers (able to have mutliple heuristics)
+def runComputerGame(heuristic, depth, PLAYER1Heuristic, PLAYER2Heuristic):
+    gameover = False
+    maxMoves = WIDTH * HEIGHT
+    state = new_game()
+    while ((not gameover) and maxMoves > 0):
+        move = minimax.doMinimax(state, PLAYER1Heuristic, 1, depth)
+        state = state.nextState(int(move))
+        maxMoves = maxMoves - 1
+        if(state.isTerminal()):
+            gameover = True
+            break
+        move = minimax.doMinimax(state, PLAYER2Heuristic, -1, depth)
+        state = state.nextState(int(move))
+        maxMoves = maxMoves - 1
+        if(state.isTerminal()):
+            gameover = True
+            break
+    return([maxMoves, state.value(), state])
+
 
 
 
@@ -262,5 +275,13 @@ def runGame(heuristic, depth):
 if __name__ == "__main__":
     heuristic = [["*",0.015, "x"], ["+",0, "y"], ["-",0, "z"], ["+",00, "v"]]
     depth = sys.argv[3]
-    winner = runGame(heuristic, int(depth))
+    if sys.argv[1] == "human":
+        player1con = 'human'
+    else:
+        player1con = 'computer'
+    if sys.argv[2] == 'human':
+        player2con = 'human'
+    else:
+        player2con = 'computer'
+    winner = runGame(heuristic, int(depth), player1con, player2con)
     print(winner)
