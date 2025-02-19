@@ -1,3 +1,7 @@
+A genetic evolutionary model to learn how to play connect 4
+
+
+
 To run the program run
 python3 game1.py [computer/human] [computer/human] [depth]
 I reccomend a depth of 3 for this program
