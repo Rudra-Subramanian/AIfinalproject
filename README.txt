@@ -15,11 +15,20 @@ for example:
 In this case the heuristic will be
 -3x + 6y where x and y are defined in the program.
 [["-",3, "x" ], ['*',-6,"y"] ]
-in this case th heuristic would be
+in this case the heuristic would be
 3x * (-6y)
 you can change the heuristic in game1.py in the main function
 you can have as many sublists as you want in the same format
 
 I wanted to make a suitable heuristic which could be easily mutable. In this case the current heuristic is checking the middle row/rows and summing the number of white vs black tiles. I multiply this by a factor of 0.015 as the max value would be -5 or 5 and this would result in a max 0.075 which would never be larger than 1 or -1 (either side winning). I also created other simple quick functions the heurisitic could do like checking a row or column. I created these (and will create some more) so that the genetic algorithm will be able to use it to make a better heuristic. 
+
+## Current Heuristics values:
+
+x: Difference between white vs black tiles in the middle column
+y: Difference between the white vs black tiles in the top column 
+z: Difference betweeen the white vs black tiles in bottom column
+v: Difference between the white vs black tiles in the 5th column
+
+Each value of the heurisitic has its own sign and constant that can be mutated in various ways 
 
 Currently it is good to keep the centre of the board, and the middle pieces are vital to winning in connect 4 so that is why I made my heuristic this. I played around with the factor 0.015 and realised that this value is good, any higher/lower makes it easier to win against. The heuristic does not win that much but that is a good thing, lots of room for improvement
